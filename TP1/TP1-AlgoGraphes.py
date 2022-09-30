@@ -233,6 +233,35 @@ deTLaM(dico)
 
 #%% Exercice 3 :
 # Coloriage d'un graphe
+import operator
+#créeons la liste depuis notre drive mode
+list = [
+        [2, 3, 4],
+        [1, 4, 6],
+        [1, 4, 7],
+        [1, 2, 3, 6, 7],
+        [1, 3],
+        [1, 2, 4],
+        [3, 4]]
+
+def nbchromatique(liste):
+    dico = dict()
+    visited = 0
+    k = 0
+    for i in liste:
+        dico[k] = i
+        k += 1
+    newDico = dict()
+    liste = sorted(liste, key=len, reverse=True)
+    while visited < k:
+
+    print(liste)
+    c = []
+
+    pass
+
+nbchromatique(list)
+
 
 #%% Exercice 4 :
 # Coloriage par fichiers
