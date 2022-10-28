@@ -1,6 +1,10 @@
-"Indiquez ici vos nom et prénom :"
 
+'''
+Sakal Yaroslav.
+J'ai oublié de mettre à jour le fichier précedent. 
+Dans l'archive au-dessus vous pouvez trouver un fichier identique, téléchargé sur github il y a une semaine
 
+'''
 
 #%% Fonctions
 def f(x): #La fontion f(x) calcule le cube de x
@@ -25,47 +29,10 @@ print("Le pgcd entre",3, "et",6,"vaut" ,euclide(6,9))
 
 # Si la fonction f1 est définie dans un module (programme en Python) nommé prog.py, pour l'utiliser dans un autre module il faudra importer son contenu par # >>>from prog import f1
 
-'''        print(G, N, CN)
-        for i in range(len(G)):
-            if G[i+1] == {} and i+1 not in CN:
-                print("We're going to append this truc")
-                N.append(i+1)
-                del G[i+1]
-            print(N)
-        for i in range(len(N)):
-            for j in range(len(G)):
-                print("G equalds ", G)
-                l = G[j+1]
-                if N[i] in l:
-                    CN.append(j+1)
-                    if len(l) <= 1:
-                        l = []
-                        #print(j+1)
-                    else:
-                        l.remove(N[i])
-                    #print(G)
-
-                    G[j+1].remove(N[i])
-                    if len(G[j+1]) == 0:
-                        G[j+1] = {}
-                    print(G, N[i])
-        print("Noyau est égal à ", N, " et compémént à ", CN)
-        for i in range(len(CN)):
-            for j in range(len(G)):
-                l = G[j+1]
-                if CN[i] in l:
-                    print(CN[i])
-                    G[j+1].remove(CN[i])
-                    if len(G[j+1]) == 0:
-                        G[j+1] = {}
-        print("End of cycle")
-
-
-    m = 0
-    #print(sommetNum)#'''
 
 #%% Exercice 1 :
 
+#Graphe orienté sans circuits
 d = dict()
 dico = dict()
 dico[1] = { 2, 3, 4}
@@ -73,56 +40,139 @@ dico[2] = {4}
 dico[3] = {4}
 dico[4] = {5}
 dico[5] = {}
-#Graphe orienté sans circuits
-#1. Chercher sans sommets sans suc
-#Inserer das noyau
 
-#graphe est repsrésenté par le dictionnaire
 def Noyau(G):
     N = []
-
     CN = []
-    i = 0
-    for i in range(len(G)):
-        if G[i+1] == {}:
-            N.append(i+1)
-    for i in range(len(N)):
-        for j in range(len(G)):
-            if N[i] in G[j+1]:
-                CN.append(j+1)
 
-    for k in list(G.keys()):
-        if k in N:
-            del G[k]
-    print(N, "   ", CN)
-    print(G)
+    dico = G
+    print(dico)
     print()
-    for i in range(len(CN)):
-        for k in list(G.keys()):
-            break
-            print(CN[i] in G[k])
-            if CN[i] in G[k]:
-                G[k].remove(CN[i])
-        for i in range(len(G)):
-            print(CN[i] in G[k])
-            if CN[i] in G[k]:
-                G[k].remove(CN[i])
-        #print(G)
-    print(N, "   ", CN)
-    #print(G)
-    print()
+    while len(dico):
+        for i in dico:
+            if i not in N and (dico[i] == {} or dico[i] == set()):
+                N.append(i)
+                for j in dico:
+                    if i in dico[j] and j not in CN:
+                        CN.append(j)
+        for i in dico:
+            s = dico[i]
+            for j in CN:
+                if j in s:
+                    s.remove(j)
+            dico[i] = s
+        for i in N:
+            if i in dico:
+                del dico[i]
+        for i in CN:
+            if i in dico:
+                del dico[i]
 
 
+    print("Le noyau: ", N)
+    print("Le complémentaire d'un noyau: ", CN)
+
+#graphe est repsrésenté par le dictionnaire
 
 Noyau(dico)
 
-
-
-
-
 #%% Exercice 2 :
+
+d = dict()
+
+d[1] = {2, 3}
+d[2] = {6}
+d[3] = {11}
+d[4] = {}
+d[5] = {6}
+d[6] = {7, 8}
+d[7] = {11}
+d[8] = {16}
+d[9] = {11}
+d[10] = {11}
+d[11] = {12, 15}
+d[12] = {16}
+d[13] = {}
+d[14] = {16}
+d[15] = {16}
+d[16] = {}
+N = []
+
+def Noyau(G):
+    N = []
+    CN = []
+
+    dico = G
+    while len(dico):
+        for i in dico:
+            if i not in N and (dico[i] == {} or dico[i] == set()):
+                N.append(i)
+                for j in dico:
+                    if i in dico[j] and j not in CN:
+                        CN.append(j)
+
+        for i in dico:
+            s = dico[i]
+            for j in CN:
+                if j in s:
+                    s.remove(j)
+            dico[i] = s
+        for i in N:
+            if i in dico:
+                del dico[i]
+        for i in CN:
+            if i in dico:
+                del dico[i]
+
+    N.sort()
+    #print("Le noyau: ", N)
+    #print("Le complémentaire d'un noyau: ", CN)
+    return N
+
+N = Noyau(d)
+
+def prog(N0):
+    N = N0
+    #Il n'est pas utile de prendre en compte les sommets 4 et 13:
+    N.remove(4)
+    N.remove(13)
+    gauche = 3
+    droite = 3
+    #position dans notre graphe
+    ind = 0
+    pos = N[ind]
+    c = ''
+    started = False
+    while gauche+droite > 0:
+        if not started:
+            print("Il y a ", end='')
+        else:
+            print("Il y reste ", end='')
+        print(gauche, "allumettes à gauche et ", droite, " allumettes à droite")
+        print("Choisissez un tas : g pour gauche et d pour droite")
+        c = input()
+        if c != 'g' and c != 'd':
+            print("Entrée non valide. Veillez réessayer en choissant une option correcte")
+            continue
+        print("Choisissez combien d'allumettes vous voudriez retirer")
+        d = int(input())
+        if d > 2 or d < 1 or d > gauche:
+            print("Entrée non valide. Veillez réessayer en choissant une option correcte")
+            continue
+        ind += d
+        pos = N[ind]
+        gauche -= d
+        droite -= d
+        started = True
+    print("L'ordinateur a gagné")
+
+prog(N)
 
 #%% Exercice 3 :
 
+
+
+
 #%% Exercice 4 :
+
 
