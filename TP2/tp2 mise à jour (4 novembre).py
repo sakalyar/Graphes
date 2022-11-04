@@ -1,9 +1,6 @@
 
 '''
 Sakal Yaroslav.
-J'ai oublié de mettre à jour le fichier précedent.
-Dans l'archive au-dessus vous pouvez trouver un fichier identique, téléchargé sur github il y a une semaine
-
 '''
 
 #%% Fonctions
